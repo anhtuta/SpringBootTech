@@ -12,9 +12,6 @@ jobs:
     docker:
       - image: circleci/openjdk:8u265
       - image: circleci/mysql:8.0.3
-        auth:
-          username: root
-          password: $MYSQL_LOCAL_PW  # context / project UI env-var reference
     working_directory: /tmp
     steps:
       # Checkout the code as the first step.
