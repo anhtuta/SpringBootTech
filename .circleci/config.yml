@@ -35,8 +35,6 @@ workflows:
   sample-workflow: 
     jobs:
       - build-local:
-        context:
-          - Local
         filters:
           branches:
             only:
