@@ -12,7 +12,6 @@ jobs:
     docker:
       - image: circleci/openjdk:8u265
       - image: circleci/mysql:8.0.3
-    working_directory: ~/tmp
     steps:
       # Checkout the code as the first step.
       - checkout
@@ -28,8 +27,10 @@ jobs:
             paths:
               - ~/.m2
             key: v1-dependencies-{{ checksum "pom.xml" }}
-      - store_artifacts:
-          path: ~/tmp/artifacts
+      - persist_to_workspace:
+         root: ./
+         paths:
+           - target/
 
 workflows:
   # Below is the definition of your workflow.
