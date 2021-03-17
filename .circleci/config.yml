@@ -12,20 +12,24 @@ jobs:
     docker:
       - image: circleci/openjdk:8u265
       - image: circleci/mysql:8.0.3
-    working_directory: /tmp
+    working_directory: ~/tmp
     steps:
       # Checkout the code as the first step.
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+            - v1-dependencies- # fallback in case previous cache key is not found
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
           command: mvn -B -DskipTests clean package
-      # Then run your tests!
-      #- run:
-      #    name: Test
-      #    command: mvn test
+      - save_cache:
+            paths:
+              - ~/.m2
+            key: v1-dependencies-{{ checksum "pom.xml" }}
       - store_artifacts:
-          path: /tmp/artifacts
+          path: ~/tmp/artifacts
 
 workflows:
   # Below is the definition of your workflow.
